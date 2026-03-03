@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact | Northfield Automation</title>
+    <meta
+      name="description"
+      content="Contact Northfield Automation to discuss workflow automation, AI customer service, and SMS process improvements for your small business."
+    />
+    <meta property="og:title" content="Contact Northfield Automation" />
+    <meta
+      property="og:description"
+      content="Share your current process and we will propose a practical pilot project for your team."
+    />
+    <meta property="og:type" content="website" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="script.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <header class="site-header">
+      <div class="container nav-wrap">
+        <a class="brand" href="index.html">Northfield Automation</a>
+        <button
+          class="menu-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="primary-nav"
+          aria-label="Open menu"
+        >
+          <span></span><span></span><span></span>
+        </button>
+        <nav id="primary-nav" class="site-nav" aria-label="Primary">
+          <a href="index.html">Home</a>
+          <a href="index.html#services">Services</a>
+          <a href="index.html#how-it-works">How It Works</a>
+          <a href="index.html#faq">FAQ</a>
+          <a href="contact.html" aria-current="page">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content" class="section">
+      <div class="container contact-layout">
+        <section>
+          <h1>Contact</h1>
+          <p class="lead">
+            Tell us what your team wants to improve. We will review your current process and recommend
+            a practical pilot with clear deliverables and timeline.
+          </p>
+
+          <form id="contact-form" novalidate>
+            <div class="form-grid">
+              <div class="form-field">
+                <label for="fullName">Full Name <span aria-hidden="true">*</span></label>
+                <input id="fullName" name="fullName" type="text" required />
+                <p class="error-message" data-error-for="fullName"></p>
+              </div>
+
+              <div class="form-field">
+                <label for="businessName">Business Name</label>
+                <input id="businessName" name="businessName" type="text" />
+              </div>
+
+              <div class="form-field">
+                <label for="email">Email <span aria-hidden="true">*</span></label>
+                <input id="email" name="email" type="email" required />
+                <p class="error-message" data-error-for="email"></p>
+              </div>
+
+              <div class="form-field">
+                <label for="phone">Phone</label>
+                <input id="phone" name="phone" type="tel" />
+              </div>
+
+              <div class="form-field full-width">
+                <label for="automationGoal">What do you want to automate? <span aria-hidden="true">*</span></label>
+                <textarea id="automationGoal" name="automationGoal" rows="5" required></textarea>
+                <p class="error-message" data-error-for="automationGoal"></p>
+              </div>
+
+              <fieldset class="form-field full-width radio-group">
+                <legend>Preferred contact method</legend>
+                <label><input type="radio" name="contactMethod" value="Email" checked /> Email</label>
+                <label><input type="radio" name="contactMethod" value="Text" /> Text</label>
+                <label><input type="radio" name="contactMethod" value="Call" /> Call</label>
+              </fieldset>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Send Inquiry</button>
+
+            <p id="form-success" class="success-message" role="status" aria-live="polite"></p>
+            <p id="mailto-fallback" class="mailto-link"></p>
+          </form>
+        </section>
+
+        <aside class="card">
+          <h2>Typical First Project</h2>
+          <ul>
+            <li>Map one high-volume process and identify delay points.</li>
+            <li>Implement a pilot workflow with approval checkpoints.</li>
+            <li>Test with real customer requests and team feedback.</li>
+            <li>Document results and expansion opportunities.</li>
+          </ul>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <p class="tagline">Practical AI systems for reliable operations and better customer response.</p>
+        <p>© <span id="year"></span> Northfield Automation. All rights reserved.</p>
+        <a href="#" aria-label="Privacy policy placeholder">Privacy</a>
+      </div>
+    </footer>
+
+    <button class="back-to-top" type="button" aria-label="Back to top">↑</button>
+  </body>
+</html>
