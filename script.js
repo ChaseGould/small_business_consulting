@@ -53,6 +53,10 @@
     return;
   }
 
+  if (form.action.includes('formspree.io')) {
+    return;
+  }
+
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
   function setError(fieldName, message) {
