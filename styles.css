@@ -152,6 +152,46 @@ a:hover {
   align-items: start;
 }
 
+
+.product-overview {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.product-spotlight {
+  max-width: 760px;
+  border-left: 6px solid var(--color-accent);
+  background: linear-gradient(145deg, #f8fbff, #ffffff);
+}
+
+.spotlight-label {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-accent);
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
+.product-spotlight h2 {
+  margin: 0.4rem 0 0.65rem;
+}
+
+.product-spotlight p {
+  margin: 0;
+}
+
+.coming-soon-badge {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(37, 99, 235, 0.12);
+  color: var(--color-accent-hover);
+  font-weight: 700;
+  font-size: 0.875rem;
+}
+
 .hero-panel,
 .card,
 .step-card,
