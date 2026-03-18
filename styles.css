@@ -114,8 +114,16 @@ a:hover {
 }
 
 .brand {
-  font-weight: 800;
-  color: var(--color-primary);
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.brand img {
+  display: block;
+  height: 2.1rem;
+  width: auto;
+  max-width: min(300px, 60vw);
 }
 
 .site-nav {
