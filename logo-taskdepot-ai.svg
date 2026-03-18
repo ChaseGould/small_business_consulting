@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 180" role="img" aria-labelledby="logoTitle logoDesc">
+  <title id="logoTitle">TaskDepot AI logo</title>
+  <desc id="logoDesc">The TaskDepot AI wordmark with dark gray and blue gradient text.</desc>
+  <defs>
+    <linearGradient id="depotBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1fb8ee" />
+      <stop offset="55%" stop-color="#0b5fd2" />
+      <stop offset="100%" stop-color="#0c3f9f" />
+    </linearGradient>
+    <linearGradient id="taskGray" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#777777" />
+      <stop offset="100%" stop-color="#292929" />
+    </linearGradient>
+  </defs>
+  <rect width="920" height="180" fill="none" />
+  <text
+    x="14"
+    y="130"
+    font-family="Inter, Arial, Helvetica, sans-serif"
+    font-size="130"
+    font-style="italic"
+    font-weight="800"
+    letter-spacing="-4"
+    fill="url(#taskGray)"
+  >
+    Task
+  </text>
+  <text
+    x="300"
+    y="130"
+    font-family="Inter, Arial, Helvetica, sans-serif"
+    font-size="130"
+    font-weight="800"
+    letter-spacing="-4"
+    fill="url(#depotBlue)"
+  >
+    Depot AI
+  </text>
+</svg>
