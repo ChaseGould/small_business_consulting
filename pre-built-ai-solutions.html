@@ -72,6 +72,269 @@
         </div>
       </section>
 
+      <section class="section section-alt" id="live-demo">
+        <div class="container">
+          <p class="eyebrow">Live Demo</p>
+          <h2>See It In Action</h2>
+          <p class="section-intro">
+            Enter rough incident notes the way a field officer actually would — any
+            format, any level of detail — and watch the system turn them into a
+            professionally formatted report in real time.
+          </p>
+
+          <div class="demo-layout">
+            <form class="demo-form" id="demo-form" novalidate>
+              <div class="form-grid">
+                <div class="form-field">
+                  <label for="demo-datetime">Date &amp; Time</label>
+                  <input
+                    type="text"
+                    id="demo-datetime"
+                    name="datetime"
+                    placeholder="e.g. 06/13/2026 — 14:32"
+                  />
+                </div>
+                <div class="form-field">
+                  <label for="demo-location">Location / Site</label>
+                  <input
+                    type="text"
+                    id="demo-location"
+                    name="location"
+                    placeholder="e.g. Warehouse B, Chicago"
+                  />
+                </div>
+                <div class="form-field">
+                  <label for="demo-type">Incident Type</label>
+                  <input
+                    type="text"
+                    id="demo-type"
+                    name="incidentType"
+                    placeholder="e.g. Slip and Fall"
+                  />
+                </div>
+                <div class="form-field">
+                  <label for="demo-officer">Reporting Officer</label>
+                  <input
+                    type="text"
+                    id="demo-officer"
+                    name="officer"
+                    placeholder="e.g. M. Johnson — ID-007"
+                  />
+                </div>
+                <div class="form-field full-width">
+                  <label for="demo-notes">Rough Notes</label>
+                  <textarea
+                    id="demo-notes"
+                    name="notes"
+                    rows="6"
+                    placeholder="Just write what happened — your words, any format"
+                  ></textarea>
+                </div>
+              </div>
+              <p class="error-message" id="demo-error" role="alert"></p>
+              <button class="btn btn-primary" type="submit" id="demo-submit">
+                Generate Report →
+              </button>
+            </form>
+
+            <div class="demo-output" aria-live="polite">
+              <div class="report-placeholder" id="report-placeholder">
+                Your generated report will appear here.
+              </div>
+              <div class="report-card" id="report-card" hidden>
+                <div class="report-card-header">
+                  <div>
+                    <p class="report-doc-title">INCIDENT REPORT</p>
+                  </div>
+                  <div class="report-doc-meta">
+                    <p>Report #: <span id="rc-number"></span></p>
+                    <p>Filed: <span id="rc-filed"></span></p>
+                  </div>
+                </div>
+                <div class="report-meta-row">
+                  <div>
+                    <p class="report-field-label">Date / Time</p>
+                    <p class="report-field-value" id="rc-datetime"></p>
+                  </div>
+                  <div>
+                    <p class="report-field-label">Location</p>
+                    <p class="report-field-value" id="rc-location"></p>
+                  </div>
+                  <div>
+                    <p class="report-field-label">Officer</p>
+                    <p class="report-field-value" id="rc-officer"></p>
+                  </div>
+                </div>
+                <div class="report-body">
+                  <p class="report-field-label">Incident Type</p>
+                  <p class="report-field-value" id="rc-type"></p>
+
+                  <p class="report-field-label">Summary</p>
+                  <p class="report-paragraph" id="rc-summary"></p>
+
+                  <p class="report-field-label">Subject Description</p>
+                  <p class="report-paragraph" id="rc-subject"></p>
+
+                  <p class="report-field-label">Actions Taken</p>
+                  <p class="report-paragraph" id="rc-actions"></p>
+                </div>
+                <div class="report-status">
+                  <span class="status-dot"></span>
+                  <span id="rc-status">Pending Review</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <script>
+          (function () {
+            // TODO: Update this URL after deploying worker.js to Cloudflare
+            const WORKER_URL = 'https://incident-report-proxy.chase-gould7.workers.dev';
+
+            const form = document.getElementById('demo-form');
+            const submitBtn = document.getElementById('demo-submit');
+            const errorEl = document.getElementById('demo-error');
+            const placeholder = document.getElementById('report-placeholder');
+            const card = document.getElementById('report-card');
+
+            function escapeHtml(str) {
+              return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+            }
+
+            function buildPrompt(data) {
+              return [
+                'You are a professional incident report writer. Take raw field notes and',
+                'produce a formal, complete incident report.',
+                '',
+                'STRICT RULES:',
+                '- ALWAYS generate a report, no matter how sparse the notes are.',
+                '  Never return "insufficient information" or refuse.',
+                '- Use whatever details are available; infer reasonable, professional',
+                '  language where needed, but do not fabricate specific facts.',
+                '- Write in formal, third-person, past tense.',
+                '- The status is ALWAYS "Pending Review" — never auto-close a report.',
+                '- Return ONLY valid JSON. No markdown, no code fences, no preamble.',
+                '',
+                'FORM DATA (treat as verified facts):',
+                'Date/Time: ' + (data.datetime || 'Not provided'),
+                'Location: ' + (data.location || 'Not provided'),
+                'Incident Type: ' + (data.incidentType || 'Not provided'),
+                'Reporting Officer: ' + (data.officer || 'Not provided'),
+                '',
+                'RAW OFFICER NOTES:',
+                data.notes,
+                '',
+                'Return a JSON object with EXACTLY these fields:',
+                '{',
+                '  "reportNumber": "IR-[YYYYMMDD]-[4 random digits]",',
+                '  "summary": "2-3 sentence professional narrative of what happened",',
+                '  "subjectDescription": "physical/vehicle description, or \'No subject description provided\'",',
+                '  "actionsTaken": "what the officer did, in professional prose",',
+                '  "status": "Pending Review"',
+                '}',
+              ].join('\n');
+            }
+
+            function renderReport(report, data) {
+              document.getElementById('rc-number').textContent =
+                report.reportNumber || 'IR-' + '----';
+              document.getElementById('rc-filed').textContent =
+                new Date().toLocaleString();
+              document.getElementById('rc-datetime').textContent =
+                data.datetime || 'Not provided';
+              document.getElementById('rc-location').textContent =
+                data.location || 'Not provided';
+              document.getElementById('rc-officer').textContent =
+                data.officer || 'Not provided';
+              document.getElementById('rc-type').textContent =
+                data.incidentType || 'Not provided';
+              document.getElementById('rc-summary').textContent =
+                report.summary || 'Not reported';
+              document.getElementById('rc-subject').textContent =
+                report.subjectDescription || 'No subject description provided';
+              document.getElementById('rc-actions').textContent =
+                report.actionsTaken || 'Not reported';
+              document.getElementById('rc-status').textContent =
+                report.status || 'Pending Review';
+
+              placeholder.hidden = true;
+              card.hidden = false;
+            }
+
+            function showError(message) {
+              errorEl.textContent = message;
+            }
+
+            form.addEventListener('submit', async function (e) {
+              e.preventDefault();
+              showError('');
+
+              const data = {
+                datetime: document.getElementById('demo-datetime').value.trim(),
+                location: document.getElementById('demo-location').value.trim(),
+                incidentType: document.getElementById('demo-type').value.trim(),
+                officer: document.getElementById('demo-officer').value.trim(),
+                notes: document.getElementById('demo-notes').value.trim(),
+              };
+
+              if (!data.notes) {
+                showError('Please add a few rough notes before generating a report.');
+                document.getElementById('demo-notes').focus();
+                return;
+              }
+
+              submitBtn.disabled = true;
+              const originalLabel = submitBtn.textContent;
+              submitBtn.textContent = 'Generating...';
+
+              try {
+                const response = await fetch(WORKER_URL, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    model: 'claude-haiku-4-5-20251001',
+                    max_tokens: 1000,
+                    messages: [{ role: 'user', content: buildPrompt(data) }],
+                  }),
+                });
+
+                const result = await response.json();
+                if (result.error) {
+                  throw new Error(result.error.message || 'The report service returned an error.');
+                }
+
+                const text =
+                  result.content && result.content[0] && result.content[0].text;
+                if (!text) {
+                  throw new Error('No report content was returned. Please try again.');
+                }
+
+                // Strip any stray code fences and isolate the JSON object.
+                const cleaned = text.replace(/```json|```/g, '').trim();
+                const start = cleaned.indexOf('{');
+                const end = cleaned.lastIndexOf('}');
+                const report = JSON.parse(cleaned.slice(start, end + 1));
+
+                renderReport(report, data);
+              } catch (err) {
+                showError(
+                  'Something went wrong generating the report: ' +
+                    err.message +
+                    ' Please try again.'
+                );
+              } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalLabel;
+              }
+            });
+          })();
+        </script>
+      </section>
+
       <section class="section cta-section">
         <div class="container cta-box">
           <h2>Ready to automate your first workflow?</h2>
