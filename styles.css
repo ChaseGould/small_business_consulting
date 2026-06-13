@@ -469,6 +469,17 @@ a:focus-visible {
 }
 
 /* Demo Section */
+.product-demo {
+  margin-top: 2.5rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.product-demo h3 {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
 .demo-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
