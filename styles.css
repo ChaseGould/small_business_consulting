@@ -166,40 +166,6 @@ a:hover {
   gap: 1.25rem;
 }
 
-.product-spotlight {
-  max-width: 760px;
-  border-left: 6px solid var(--color-accent);
-  background: linear-gradient(145deg, #f8fbff, #ffffff);
-}
-
-.spotlight-label {
-  margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--color-accent);
-  font-weight: 700;
-  font-size: 0.8rem;
-}
-
-.product-spotlight h2 {
-  margin: 0.4rem 0 0.65rem;
-}
-
-.product-spotlight p {
-  margin: 0;
-}
-
-.coming-soon-badge {
-  display: inline-block;
-  margin-top: 1rem;
-  padding: 0.25rem 0.7rem;
-  border-radius: 999px;
-  background: rgba(37, 99, 235, 0.12);
-  color: var(--color-accent-hover);
-  font-weight: 700;
-  font-size: 0.875rem;
-}
-
 .hero-panel,
 .card,
 .step-card,
@@ -465,5 +431,183 @@ a:focus-visible {
   .three-up,
   .steps-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Demo Section */
+.product-demo {
+  margin-top: 2.5rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.product-demo h3 {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.demo-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+  margin-top: 1.5rem;
+}
+
+.demo-form {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-white);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-soft);
+}
+
+.demo-form label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--color-primary);
+}
+
+.demo-form .btn-primary {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.demo-form .btn-primary:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.report-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 320px;
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-bg-light);
+  color: #94a3b8;
+  font-size: 0.95rem;
+  text-align: center;
+  padding: 2rem;
+}
+
+.report-placeholder[hidden] {
+  display: none;
+}
+
+.report-card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-top: 4px solid var(--color-accent);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+}
+
+.report-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.report-doc-title {
+  margin: 0;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-primary);
+  font-size: 1.05rem;
+}
+
+.report-doc-meta {
+  text-align: right;
+}
+
+.report-doc-meta p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.report-doc-meta span {
+  color: var(--color-text-dark);
+  font-weight: 600;
+}
+
+.report-meta-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.report-body {
+  padding: 1.25rem 1.5rem;
+}
+
+.report-field-label {
+  margin: 0 0 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+.report-body .report-field-label {
+  margin-top: 1.1rem;
+}
+
+.report-body .report-field-label:first-child {
+  margin-top: 0;
+}
+
+.report-field-value {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--color-text-dark);
+  font-weight: 500;
+}
+
+.report-paragraph {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--color-text-dark);
+  line-height: 1.6;
+}
+
+.report-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-bg-light);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.8rem;
+  color: var(--color-primary);
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-accent);
+}
+
+@media (max-width: 720px) {
+  .demo-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .report-meta-row {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
   }
 }
