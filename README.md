@@ -3,6 +3,18 @@
 Marketing site for TaskDepot AI. Static HTML/CSS/JS, deployed via GitHub Pages
 (custom domain set in `CNAME`).
 
+## Running Locally
+
+The site is plain static files, so any static file server works. To preview it
+locally, serve the project directory and open the printed URL:
+
+```
+npx serve . -l 3000
+```
+
+Then visit <http://localhost:3000/index.html>. No build step or install is
+required — `npx` fetches the `serve` package on first run.
+
 ## Live Demo: Smart Incident Reporting
 
 The [Pre-Built AI Solutions page](pre-built-ai-solutions.html) includes a live,
