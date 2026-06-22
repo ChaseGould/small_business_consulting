@@ -48,6 +48,52 @@
     });
   }
 
+  // Header gains a border/shadow once the page is scrolled.
+  const header = document.querySelector('.site-header');
+  if (header) {
+    const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 8);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  // Scroll-reveal: fade/slide elements in as they enter the viewport.
+  const prefersReducedMotion = window.matchMedia(
+    '(prefers-reduced-motion: reduce)'
+  ).matches;
+
+  const revealTargets = document.querySelectorAll(
+    '.hero-grid > *, .card, .step-card, .faq-list details, .cta-box, .section > .container > h2, .section > .container > .section-intro, .demo-form, .demo-output'
+  );
+
+  if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+    revealTargets.forEach((el) => el.classList.add('reveal', 'is-visible'));
+  } else {
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            obs.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
+    );
+
+    revealTargets.forEach((el) => el.classList.add('reveal'));
+    revealTargets.forEach((el) => {
+      // Stagger siblings inside the same grid for a cascade effect.
+      const siblings = Array.from(el.parentElement.children).filter((c) =>
+        c.classList.contains('reveal')
+      );
+      const index = siblings.indexOf(el);
+      if (index > 0 && index < 4) {
+        el.setAttribute('data-reveal-delay', String(index));
+      }
+      observer.observe(el);
+    });
+  }
+
   const form = document.getElementById('contact-form');
   if (!form) {
     return;
