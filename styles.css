@@ -8,6 +8,8 @@
   --color-accent-2: #0ea5e9;
   --color-bg-light: #f6f8fc;
   --color-border: #e6eaf2;
+  --color-input-border: #c3ccdc;
+  --color-field: #f9fafc;
   --color-white: #ffffff;
 
   /* Gradients */
@@ -102,9 +104,16 @@ a:hover {
 
 /* Center the lead-in heading block of standalone sections */
 .section > .container > h2,
-.section > .container > .section-intro,
-.section > .container > .eyebrow {
+.section > .container > .section-intro {
   text-align: center;
+  margin-inline: auto;
+}
+
+/* Center the eyebrow pill itself (an inline-flex box ignores text-align),
+   except in the left-aligned product overview intro. */
+.section > .container:not(.product-overview) > .eyebrow {
+  display: flex;
+  width: fit-content;
   margin-inline: auto;
 }
 
@@ -256,6 +265,11 @@ a:hover {
 .product-overview {
   display: grid;
   gap: 1.25rem;
+}
+
+/* Keep the intro eyebrow hugging its text instead of stretching as a grid item. */
+.product-overview > .eyebrow {
+  justify-self: start;
 }
 
 /* Surfaces */
@@ -615,6 +629,24 @@ a:hover {
   align-items: start;
 }
 
+#contact-form {
+  margin-top: 1.5rem;
+  padding: 1.75rem;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+}
+
+.contact-layout aside.card {
+  position: sticky;
+  top: 6rem;
+}
+
+.contact-layout aside.card h2 {
+  font-size: 1.2rem;
+}
+
 .contact-layout aside.card ul {
   margin: 0;
   padding-left: 1.1rem;
@@ -649,16 +681,17 @@ a:hover {
   grid-column: 1 / -1;
 }
 
-input,
+input:not([type="radio"]):not([type="checkbox"]),
 textarea {
   width: 100%;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-input-border);
   border-radius: 10px;
   padding: 0.75rem 0.85rem;
   font: inherit;
   color: var(--color-ink);
-  background: var(--color-white);
-  transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+  background: var(--color-field);
+  transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease),
+    background 0.2s var(--ease);
 }
 
 input::placeholder,
@@ -666,11 +699,23 @@ textarea::placeholder {
   color: #9aa7bd;
 }
 
-input:focus,
+input:not([type="radio"]):not([type="checkbox"]):hover,
+textarea:hover {
+  border-color: #aab4c6;
+}
+
+input:not([type="radio"]):not([type="checkbox"]):focus,
 textarea:focus {
   outline: none;
+  background: var(--color-white);
   border-color: var(--color-accent);
   box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.14);
+}
+
+input[type="radio"] {
+  width: auto;
+  accent-color: var(--color-accent);
+  margin-right: 0.35rem;
 }
 
 button:focus-visible,
