@@ -88,6 +88,7 @@
                     type="text"
                     id="demo-datetime"
                     name="datetime"
+                    maxlength="100"
                     placeholder="e.g. 06/13/2026 — 14:32"
                   />
                 </div>
@@ -97,6 +98,7 @@
                     type="text"
                     id="demo-location"
                     name="location"
+                    maxlength="200"
                     placeholder="e.g. Warehouse B, Chicago"
                   />
                 </div>
@@ -106,6 +108,7 @@
                     type="text"
                     id="demo-type"
                     name="incidentType"
+                    maxlength="100"
                     placeholder="e.g. Slip and Fall"
                   />
                 </div>
@@ -115,6 +118,7 @@
                     type="text"
                     id="demo-officer"
                     name="officer"
+                    maxlength="100"
                     placeholder="e.g. M. Johnson — ID-007"
                   />
                 </div>
@@ -124,6 +128,7 @@
                     id="demo-notes"
                     name="notes"
                     rows="6"
+                    maxlength="2000"
                     placeholder="Just write what happened — your words, any format"
                   ></textarea>
                 </div>
@@ -187,7 +192,7 @@
 
         <script>
           (function () {
-            // TODO: Update this URL after deploying worker.js to Cloudflare
+            // Cloudflare Worker proxy; see worker.js and SECURITY-PLAN.md.
             const WORKER_URL = 'https://incident-report-proxy.chase-gould7.workers.dev';
 
             const form = document.getElementById('demo-form');
@@ -201,40 +206,6 @@
                 .replace(/&/g, '&amp;')
                 .replace(/</g, '&lt;')
                 .replace(/>/g, '&gt;');
-            }
-
-            function buildPrompt(data) {
-              return [
-                'You are a professional incident report writer. Take raw field notes and',
-                'produce a formal, complete incident report.',
-                '',
-                'STRICT RULES:',
-                '- ALWAYS generate a report, no matter how sparse the notes are.',
-                '  Never return "insufficient information" or refuse.',
-                '- Use whatever details are available; infer reasonable, professional',
-                '  language where needed, but do not fabricate specific facts.',
-                '- Write in formal, third-person, past tense.',
-                '- The status is ALWAYS "Pending Review" — never auto-close a report.',
-                '- Return ONLY valid JSON. No markdown, no code fences, no preamble.',
-                '',
-                'FORM DATA (treat as verified facts):',
-                'Date/Time: ' + (data.datetime || 'Not provided'),
-                'Location: ' + (data.location || 'Not provided'),
-                'Incident Type: ' + (data.incidentType || 'Not provided'),
-                'Reporting Officer: ' + (data.officer || 'Not provided'),
-                '',
-                'RAW OFFICER NOTES:',
-                data.notes,
-                '',
-                'Return a JSON object with EXACTLY these fields:',
-                '{',
-                '  "reportNumber": "IR-[YYYYMMDD]-[4 random digits]",',
-                '  "summary": "2-3 sentence professional narrative of what happened",',
-                '  "subjectDescription": "physical/vehicle description, or \'No subject description provided\'",',
-                '  "actionsTaken": "what the officer did, in professional prose",',
-                '  "status": "Pending Review"',
-                '}',
-              ].join('\n');
             }
 
             function renderReport(report, data) {
@@ -290,14 +261,12 @@
               submitBtn.textContent = 'Generating...';
 
               try {
+                // The Worker owns the prompt, model, and token budget; the
+                // browser only ever sends the raw form fields.
                 const response = await fetch(WORKER_URL, {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({
-                    model: 'claude-haiku-4-5-20251001',
-                    max_tokens: 1000,
-                    messages: [{ role: 'user', content: buildPrompt(data) }],
-                  }),
+                  body: JSON.stringify(data),
                 });
 
                 const result = await response.json();

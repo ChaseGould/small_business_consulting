@@ -26,7 +26,7 @@ generated in real time by Claude.
 
 ```
 Browser (pre-built-ai-solutions.html)
-        │  POST { model, max_tokens, messages }
+        │  POST { datetime, location, incidentType, officer, notes }
         ▼
 Cloudflare Worker  ──►  Anthropic Messages API
 (incident-report-proxy)      (api.anthropic.com/v1/messages)
@@ -37,8 +37,10 @@ Cloudflare Worker  ──►  Anthropic Messages API
 
 The demo's front-end code lives inline in
 [`pre-built-ai-solutions.html`](pre-built-ai-solutions.html) (the `Try It
-Yourself` section). It builds a prompt from the form fields, POSTs to the
-Worker, parses the JSON the model returns, and renders it into the report card.
+Yourself` section). It POSTs the raw form fields to the Worker, parses the
+JSON the model returns, and renders it into the report card. The prompt, the
+model choice, and the token budget all live in the Worker, never in the
+browser, so the endpoint cannot be repurposed as a general Claude proxy.
 
 ### Why a Cloudflare Worker?
 
@@ -50,9 +52,13 @@ exists as a Cloudflare secret, never in this repository.
 
 The Worker code is [`worker.js`](worker.js). It:
 - handles CORS preflight (`OPTIONS`) and rejects non-`POST` methods,
+- rate limits requests per IP (best effort, in-isolate; see
+  `SECURITY-PLAN.md` for the WAF rule that backs it up),
+- validates the form fields (allowlist, string types, length caps),
+- builds the incident-report prompt server-side with a hardcoded model
+  and `max_tokens`,
 - reads the key from `env.ANTHROPIC_API_KEY` (a Cloudflare secret),
-- forwards the request body to the Anthropic Messages API,
-- returns the response (and upstream status code) to the browser.
+- returns the Anthropic response (and upstream status code) to the browser.
 
 ## How the Worker Was Deployed
 
