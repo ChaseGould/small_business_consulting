@@ -16,7 +16,7 @@
   --gradient-accent: linear-gradient(135deg, #4f46e5 0%, #0ea5e9 100%);
   --gradient-hero: radial-gradient(1200px 600px at 15% -10%, rgba(79, 70, 229, 0.14), transparent 60%),
     radial-gradient(1000px 500px at 100% 0%, rgba(14, 165, 233, 0.12), transparent 55%);
-  --gradient-cta: linear-gradient(135deg, #0b1220 0%, #1b2a4a 60%, #243b6b 100%);
+  --gradient-cta: linear-gradient(135deg, #4f46e5 0%, #3b82f6 55%, #0ea5e9 100%);
 
   /* Elevation */
   --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
@@ -135,12 +135,12 @@ a:hover {
   text-transform: uppercase;
   letter-spacing: 0.1em;
   font-size: 0.78rem;
-  color: var(--color-accent);
+  color: #0369a1;
   font-weight: 700;
   margin-bottom: 0.9rem;
   padding: 0.4rem 0.85rem;
-  background: rgba(79, 70, 229, 0.09);
-  border: 1px solid rgba(79, 70, 229, 0.18);
+  background: rgba(14, 165, 233, 0.1);
+  border: 1px solid rgba(14, 165, 233, 0.25);
   border-radius: 999px;
 }
 
@@ -247,6 +247,40 @@ a:hover {
   overflow: hidden;
 }
 
+.hero-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: url("hero-bg-poster.jpg") center / cover no-repeat;
+}
+
+.hero-media video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(1.25) saturate(1.05);
+}
+
+.hero-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-hero),
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.94) 0%,
+      rgba(255, 255, 255, 0.88) 45%,
+      rgba(246, 248, 252, 0.55) 100%
+    );
+}
+
+.hero .container {
+  position: relative;
+  z-index: 1;
+}
+
 .hero::after {
   content: "";
   position: absolute;
@@ -273,7 +307,6 @@ a:hover {
 }
 
 /* Surfaces */
-.hero-panel,
 .card,
 .step-card,
 .cta-box {
@@ -284,45 +317,31 @@ a:hover {
   box-shadow: var(--shadow-soft);
 }
 
-.hero-panel {
-  position: relative;
-  background: linear-gradient(180deg, #ffffff, #fbfcff);
+/* Benefits bar */
+.benefits-bar {
+  background: var(--color-white);
+  border-bottom: 1px solid var(--color-border);
+  padding: 1.5rem 0;
 }
 
-.hero-panel::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: var(--radius);
-  padding: 1px;
-  background: var(--gradient-accent);
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  opacity: 0.5;
-  pointer-events: none;
-}
-
-.hero-panel h2 {
-  font-size: 1.2rem;
-}
-
-.hero-panel ul {
+.benefits-bar ul {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 0.85rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.5rem;
 }
 
-.hero-panel li {
+.benefits-bar li {
   position: relative;
   padding-left: 1.9rem;
   color: var(--color-ink);
   font-weight: 500;
+  font-size: 0.95rem;
 }
 
-.hero-panel li::before {
+.benefits-bar li::before {
   content: "";
   position: absolute;
   left: 0;
@@ -339,7 +358,7 @@ a:hover {
 }
 
 /* Use the SVG checkmark over the gradient pill */
-.hero-panel li::after {
+.benefits-bar li::after {
   content: "";
   position: absolute;
   left: 0;
@@ -763,8 +782,9 @@ summary:focus-visible {
 
 /* Footer */
 .site-footer {
-  background: var(--color-primary);
-  color: rgba(255, 255, 255, 0.75);
+  background: var(--color-bg-light);
+  border-top: 1px solid var(--color-border);
+  color: var(--color-muted);
   padding: 2.75rem 0;
 }
 
@@ -774,7 +794,7 @@ summary:focus-visible {
 }
 
 .site-footer .tagline {
-  color: var(--color-white);
+  color: var(--color-primary);
   font-weight: 500;
   margin: 0;
 }
@@ -837,7 +857,8 @@ summary:focus-visible {
 
 @media (max-width: 960px) {
   .four-up,
-  .steps-grid {
+  .steps-grid,
+  .benefits-bar ul {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -883,14 +904,23 @@ summary:focus-visible {
   .form-grid,
   .four-up,
   .three-up,
-  .steps-grid {
+  .steps-grid,
+  .benefits-bar ul {
     grid-template-columns: 1fr;
+  }
+
+  .benefits-bar ul {
+    gap: 0.85rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .hero-media video {
+    display: none;
   }
 
   .reveal {
