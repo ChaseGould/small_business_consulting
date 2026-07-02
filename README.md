@@ -52,8 +52,10 @@ exists as a Cloudflare secret, never in this repository.
 
 The Worker code is [`worker.js`](worker.js). It:
 - handles CORS preflight (`OPTIONS`) and rejects non-`POST` methods,
-- rate limits requests per IP (best effort, in-isolate; see
-  `SECURITY-PLAN.md` for the WAF rule that backs it up),
+- rate limits requests per IP (best effort, in-isolate),
+- enforces a global daily request budget with a Workers KV counter
+  (namespace bound as `RATE_LIMIT_KV`; fails open if the binding is
+  missing so the demo never breaks on KV issues),
 - validates the form fields (allowlist, string types, length caps),
 - builds the incident-report prompt server-side with a hardcoded model
   and `max_tokens`,

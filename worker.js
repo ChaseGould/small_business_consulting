@@ -21,11 +21,18 @@ const FIELD_LIMITS = {
 
 // Best-effort per-IP rate limit. State lives in the Worker isolate, so it
 // is not a hard guarantee across Cloudflare's edge, but it stops simple
-// request loops from a single client. A Cloudflare WAF rate limiting rule
-// on this route is the authoritative layer (see SECURITY-PLAN.md).
+// request loops from a single client.
 const RATE_LIMIT = 5; // max requests per IP per window
 const RATE_WINDOW_MS = 60000; // one minute
 const requestLog = new Map();
+
+// Global daily budget, counted in Workers KV (bind a namespace as
+// RATE_LIMIT_KV in the Worker's Settings > Bindings). This caps worst-case
+// daily spend even under a distributed flood. KV is eventually consistent,
+// so the count is approximate; the Anthropic spend cap is the final
+// backstop (see SECURITY-PLAN.md). Only requests that pass validation and
+// are about to call Anthropic consume budget.
+const DAILY_LIMIT = 300;
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -88,6 +95,23 @@ function validateFields(body) {
     return 'Field "notes" is required.';
   }
   return null;
+}
+
+// Returns true when today's budget is spent. Fails open if the KV binding
+// is missing or KV errors, so a KV hiccup never breaks the demo.
+async function overDailyBudget(env) {
+  if (!env.RATE_LIMIT_KV) return false;
+  try {
+    const key = 'count:' + new Date().toISOString().slice(0, 10);
+    const current = parseInt(await env.RATE_LIMIT_KV.get(key), 10) || 0;
+    if (current >= DAILY_LIMIT) return true;
+    await env.RATE_LIMIT_KV.put(key, String(current + 1), {
+      expirationTtl: 172800, // auto-delete old day counters after 2 days
+    });
+  } catch (err) {
+    console.error('KV budget check failed: ' + err.message);
+  }
+  return false;
 }
 
 function buildPrompt(data) {
@@ -153,6 +177,13 @@ export default {
     const validationError = validateFields(body);
     if (validationError) {
       return errorResponse(400, validationError);
+    }
+
+    if (await overDailyBudget(env)) {
+      return errorResponse(
+        429,
+        'The demo has reached its daily usage limit. Please try again tomorrow.'
+      );
     }
 
     try {

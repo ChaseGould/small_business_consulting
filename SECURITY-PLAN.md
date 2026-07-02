@@ -48,12 +48,24 @@ budget. The browser only sends raw form fields.
   - Worker deployed via dashboard on 2026-07-02.
   - Site changes committed; push to GitHub Pages to finish this item.
 
-- [ ] **1e. Add the authoritative rate limit in Cloudflare (manual)**
-  - Dashboard: Security > WAF > Rate limiting rules (or the Worker route
-    settings): limit to ~5 requests/minute per IP on
-    `incident-report-proxy.chase-gould7.workers.dev`.
-  - The in-Worker limiter from 1a is best-effort (per isolate); this rule
-    is the hard backstop.
+- [ ] **1e. Add a global daily request budget (Workers KV)**
+  - WAF rate limiting was dropped: it is a paid add-on on our plan, and
+    zone WAF rules would not cover direct `workers.dev` traffic anyway
+    (they attach to a domain proxied through Cloudflare, which
+    `taskdepot.ai` is not).
+  - Replacement: the Worker counts successful generations per UTC day in
+    a KV namespace and returns 429 past `DAILY_LIMIT` (300). This bounds
+    worst-case daily spend even under a distributed flood. KV is
+    eventually consistent, so the cap is approximate; the Anthropic spend
+    cap (2c) is the final backstop.
+  - [x] Code added to `worker.js` (fails open if the binding is missing
+    or KV errors, so deploy order does not matter). Covered by local
+    tests.
+  - [ ] Manual, Cloudflare dashboard: Storage & Databases > KV > create a
+    namespace (e.g. `incident-demo-limits`); then in the
+    `incident-report-proxy` Worker, Settings > Bindings > add a KV
+    Namespace binding with variable name exactly `RATE_LIMIT_KV`.
+  - [ ] Re-paste the updated `worker.js` and Deploy.
 
 - [x] **1f. Verify live** (all three passed on 2026-07-02 against the
   deployed Worker)
