@@ -46,9 +46,9 @@ budget. The browser only sends raw form fields.
 
 - [x] **1d. Deploy (manual, Cloudflare dashboard)**
   - Worker deployed via dashboard on 2026-07-02.
-  - Site changes committed; push to GitHub Pages to finish this item.
+  - Site changes committed and pushed to GitHub Pages on 2026-07-02.
 
-- [ ] **1e. Add a global daily request budget (Workers KV)**
+- [x] **1e. Add a global daily request budget (Workers KV)**
   - WAF rate limiting was dropped: it is a paid add-on on our plan, and
     zone WAF rules would not cover direct `workers.dev` traffic anyway
     (they attach to a domain proxied through Cloudflare, which
@@ -61,11 +61,10 @@ budget. The browser only sends raw form fields.
   - [x] Code added to `worker.js` (fails open if the binding is missing
     or KV errors, so deploy order does not matter). Covered by local
     tests.
-  - [ ] Manual, Cloudflare dashboard: Storage & Databases > KV > create a
-    namespace (e.g. `incident-demo-limits`); then in the
-    `incident-report-proxy` Worker, Settings > Bindings > add a KV
-    Namespace binding with variable name exactly `RATE_LIMIT_KV`.
-  - [ ] Re-paste the updated `worker.js` and Deploy.
+  - [x] KV namespace `incident-demo-limits` created and bound as
+    `RATE_LIMIT_KV` (2026-07-02).
+  - [x] Updated `worker.js` deployed; counter write confirmed live via
+    the `count:2026-07-02` key (2026-07-02). Phase 1 complete.
 
 - [x] **1f. Verify live** (all three passed on 2026-07-02 against the
   deployed Worker)
@@ -82,8 +81,8 @@ budget. The browser only sends raw form fields.
 - [ ] **2b. Sanitize errors.** Return a generic error message to the
   browser; log the real upstream error with `console.error` (visible in
   the Workers dashboard) instead of forwarding Anthropic's response body.
-- [ ] **2c. Set a spend cap in the Anthropic Console** (Settings > Limits)
-  as a cost backstop. Cheap to do anytime, including today.
+- [x] **2c. Set a spend cap in the Anthropic Console** (Settings > Limits)
+  as a cost backstop. Already configured (confirmed 2026-07-02).
 - [ ] **2d. Optional: Cloudflare Turnstile** on the demo form, verified in
   the Worker, if bot traffic ever becomes a problem.
 
