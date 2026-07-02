@@ -84,9 +84,9 @@ budget. The browser only sends raw form fields.
   Workers dashboard) and replaced with a generic message. Success
   responses are trimmed to the report text only (no id/model/usage
   metadata).
-- [ ] **Deploy 2a + 2b**: re-paste `worker.js` into the Worker's Edit
-  Code view and Deploy, then confirm the live demo still generates a
-  report.
+- [x] **Deploy 2a + 2b**: deployed 2026-07-02 and verified live: the
+  demo generates reports from an allowlisted origin, and responses are
+  trimmed to the report text only (no upstream metadata).
 - [x] **2c. Set a spend cap in the Anthropic Console** (Settings > Limits)
   as a cost backstop. Already configured (confirmed 2026-07-02).
 - [ ] **2d. Optional: Cloudflare Turnstile** on the demo form, verified in
