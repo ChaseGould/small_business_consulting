@@ -34,22 +34,38 @@ const requestLog = new Map();
 // are about to call Anthropic consume budget.
 const DAILY_LIMIT = 300;
 
-const CORS_HEADERS = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
-};
+// Browser origins allowed to call this Worker. The localhost entries are
+// for the local preview workflow (npx serve, port 3000). CORS only
+// constrains browsers; curl-style clients are handled by the other layers.
+const ALLOWED_ORIGINS = [
+  'https://taskdepot.ai',
+  'https://www.taskdepot.ai',
+  'http://localhost:3000',
+  'http://127.0.0.1:3000',
+];
 
-function jsonResponse(status, payload) {
+function corsHeadersFor(origin) {
+  const allowed = ALLOWED_ORIGINS.includes(origin)
+    ? origin
+    : ALLOWED_ORIGINS[0];
+  return {
+    'Access-Control-Allow-Origin': allowed,
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    Vary: 'Origin',
+  };
+}
+
+function jsonResponse(status, payload, cors) {
   return new Response(JSON.stringify(payload), {
     status,
-    headers: { 'Content-Type': 'application/json', ...CORS_HEADERS },
+    headers: { 'Content-Type': 'application/json', ...cors },
   });
 }
 
 // Matches the { error: { message } } shape the demo page already displays.
-function errorResponse(status, message) {
-  return jsonResponse(status, { error: { message } });
+function errorResponse(status, message, cors) {
+  return jsonResponse(status, { error: { message } }, cors);
 }
 
 function isRateLimited(ip) {
@@ -150,20 +166,30 @@ function buildPrompt(data) {
 
 export default {
   async fetch(request, env) {
+    const origin = request.headers.get('Origin');
+    const cors = corsHeadersFor(origin);
+
+    // A missing Origin header (curl and friends) is allowed through here;
+    // browsers always send one for cross-origin requests.
+    if (origin && !ALLOWED_ORIGINS.includes(origin)) {
+      return errorResponse(403, 'Origin not allowed.', cors);
+    }
+
     // CORS preflight
     if (request.method === 'OPTIONS') {
-      return new Response(null, { headers: CORS_HEADERS });
+      return new Response(null, { headers: cors });
     }
 
     if (request.method !== 'POST') {
-      return errorResponse(405, 'Method not allowed');
+      return errorResponse(405, 'Method not allowed', cors);
     }
 
     const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
     if (isRateLimited(ip)) {
       return errorResponse(
         429,
-        'Too many requests. Please wait a minute and try again.'
+        'Too many requests. Please wait a minute and try again.',
+        cors
       );
     }
 
@@ -171,18 +197,19 @@ export default {
     try {
       body = await request.json();
     } catch (err) {
-      return errorResponse(400, 'Request body must be valid JSON.');
+      return errorResponse(400, 'Request body must be valid JSON.', cors);
     }
 
     const validationError = validateFields(body);
     if (validationError) {
-      return errorResponse(400, validationError);
+      return errorResponse(400, validationError, cors);
     }
 
     if (await overDailyBudget(env)) {
       return errorResponse(
         429,
-        'The demo has reached its daily usage limit. Please try again tomorrow.'
+        'The demo has reached its daily usage limit. Please try again tomorrow.',
+        cors
       );
     }
 
@@ -202,9 +229,38 @@ export default {
       });
 
       const data = await response.json();
-      return jsonResponse(response.status, data);
+
+      // Upstream details stay in the Workers logs; the browser only ever
+      // sees a generic message and the report text itself.
+      if (!response.ok) {
+        console.error(
+          'Anthropic API error ' + response.status + ': ' + JSON.stringify(data)
+        );
+        return errorResponse(
+          502,
+          'The report service is temporarily unavailable. Please try again shortly.',
+          cors
+        );
+      }
+
+      const text = data.content && data.content[0] && data.content[0].text;
+      if (!text) {
+        console.error('Anthropic response had no text content');
+        return errorResponse(
+          502,
+          'The report service is temporarily unavailable. Please try again shortly.',
+          cors
+        );
+      }
+
+      return jsonResponse(200, { content: [{ text }] }, cors);
     } catch (err) {
-      return errorResponse(500, err.message);
+      console.error('Upstream request failed: ' + err.message);
+      return errorResponse(
+        500,
+        'The report service is temporarily unavailable. Please try again shortly.',
+        cors
+      );
     }
   },
 };

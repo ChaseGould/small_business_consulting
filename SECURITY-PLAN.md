@@ -75,12 +75,18 @@ budget. The browser only sends raw form fields.
 
 ## Phase 2: Hardening (after Phase 1 is confirmed working)
 
-- [ ] **2a. Lock CORS to the site origin.** Replace
-  `Access-Control-Allow-Origin: *` with `https://taskdepot.ai` and reject
-  requests whose `Origin` header is present but not allowed.
-- [ ] **2b. Sanitize errors.** Return a generic error message to the
-  browser; log the real upstream error with `console.error` (visible in
-  the Workers dashboard) instead of forwarding Anthropic's response body.
+- [x] **2a. Lock CORS to the site origin.** Implemented 2026-07-02:
+  origin allowlist (`taskdepot.ai`, `www.taskdepot.ai`, plus
+  `localhost:3000` / `127.0.0.1:3000` for the local preview). Requests
+  with a disallowed `Origin` header get 403 before any other work.
+- [x] **2b. Sanitize errors.** Implemented 2026-07-02: upstream errors
+  and network failures are logged with `console.error` (visible in the
+  Workers dashboard) and replaced with a generic message. Success
+  responses are trimmed to the report text only (no id/model/usage
+  metadata).
+- [ ] **Deploy 2a + 2b**: re-paste `worker.js` into the Worker's Edit
+  Code view and Deploy, then confirm the live demo still generates a
+  report.
 - [x] **2c. Set a spend cap in the Anthropic Console** (Settings > Limits)
   as a cost backstop. Already configured (confirmed 2026-07-02).
 - [ ] **2d. Optional: Cloudflare Turnstile** on the demo form, verified in

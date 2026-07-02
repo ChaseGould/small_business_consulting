@@ -52,6 +52,8 @@ exists as a Cloudflare secret, never in this repository.
 
 The Worker code is [`worker.js`](worker.js). It:
 - handles CORS preflight (`OPTIONS`) and rejects non-`POST` methods,
+- only allows browser origins on an allowlist (`taskdepot.ai`, `www`,
+  and localhost for the local preview); other origins get 403,
 - rate limits requests per IP (best effort, in-isolate),
 - enforces a global daily request budget with a Workers KV counter
   (namespace bound as `RATE_LIMIT_KV`; fails open if the binding is
@@ -60,7 +62,8 @@ The Worker code is [`worker.js`](worker.js). It:
 - builds the incident-report prompt server-side with a hardcoded model
   and `max_tokens`,
 - reads the key from `env.ANTHROPIC_API_KEY` (a Cloudflare secret),
-- returns the Anthropic response (and upstream status code) to the browser.
+- returns only the report text to the browser; upstream errors are
+  logged in the Workers dashboard and replaced with a generic message.
 
 ## How the Worker Was Deployed
 
