@@ -6,9 +6,9 @@
   owner (relayed by Chase, 2026-08-01), running with title-only
   attribution ("Owner, Unlimited Security Specialists"). Live in the
   USS card in `index.html`.
-- [ ] Add a real founder photo to the "Who you're working with" block.
-  The `.founder-avatar` span currently shows a "C" monogram; swap in
-  `<img>` when a photo exists (CSS already handles it).
+- [x] Add a founder photo to the "Who you're working with" block. Done
+  2026-08-01: `assets/founder-chase.jpg`, mechanical crop/resize of
+  Chase's chosen headshot, no filters.
 - [ ] Section-depth visit tracking (landing-page-craft Part 1 step 10):
   needs a small endpoint (likely a Cloudflare Worker) to receive
   sendBeacon milestones. Not built yet; site currently has no analytics.

@@ -388,6 +388,18 @@ a:hover {
   background: rgba(167, 183, 205, 0.35);
 }
 
+.mock-titlebar i:nth-child(1) {
+  background: #ec6a5e;
+}
+
+.mock-titlebar i:nth-child(2) {
+  background: #f4bf4f;
+}
+
+.mock-titlebar i:nth-child(3) {
+  background: #61c454;
+}
+
 .mock-titlebar p {
   margin: 0 0 0 0.5rem;
   font-size: 0.8rem;
