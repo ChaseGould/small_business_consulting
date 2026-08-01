@@ -14,6 +14,8 @@
       content="A dedicated page for TaskDepot AI Pre-Built AI Solutions."
     />
     <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://taskdepot.ai/og-image.png" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -29,7 +31,7 @@
     <header class="site-header">
       <div class="container nav-wrap">
         <a class="brand" href="/" aria-label="TaskDepot AI Home">
-          <img src="/logo-taskdepot-ai.svg" alt="TaskDepot AI" />
+          <img src="/logo-taskdepot-ai-dark.svg" alt="TaskDepot AI" />
         </a>
         <button
           class="menu-toggle"
@@ -41,12 +43,12 @@
           <span></span><span></span><span></span>
         </button>
         <nav id="primary-nav" class="site-nav" aria-label="Primary">
-          <a href="index.html">Home</a>
+          <a href="index.html#work">Our Work</a>
           <a href="index.html#services">Services</a>
           <a href="index.html#how-it-works">How It Works</a>
           <a href="index.html#faq">FAQ</a>
-          <a href="pre-built-ai-solutions.html" aria-current="page">Pre-Built AI Solutions</a>
-          <a href="contact.html">Contact</a>
+          <a href="pre-built-ai-solutions.html" aria-current="page">Live Demo</a>
+          <a class="btn-nav" href="contact.html">Tell me what to automate</a>
         </nav>
       </div>
     </header>
@@ -77,6 +79,9 @@
             <p class="section-intro">
               Write notes the way you actually would in the field. Messy shorthand,
               incomplete sentences, whatever you have. The system handles the rest.
+              This demo is tuned for security agencies, where it runs in production
+              today, but the same system can be repurposed for any team that documents
+              incidents: property management, facilities, events, schools, retail.
             </p>
 
             <div class="demo-layout">
@@ -89,7 +94,7 @@
                     id="demo-datetime"
                     name="datetime"
                     maxlength="100"
-                    placeholder="e.g. 06/13/2026 — 14:32"
+                    placeholder="e.g. 06/13/2026 at 14:32"
                   />
                 </div>
                 <div class="form-field">
@@ -119,7 +124,7 @@
                     id="demo-officer"
                     name="officer"
                     maxlength="100"
-                    placeholder="e.g. M. Johnson — ID-007"
+                    placeholder="e.g. M. Johnson, ID-007"
                   />
                 </div>
                 <div class="form-field full-width">
@@ -129,7 +134,7 @@
                     name="notes"
                     rows="6"
                     maxlength="2000"
-                    placeholder="Just write what happened — your words, any format"
+                    placeholder="Just write what happened, your words, any format"
                   ></textarea>
                 </div>
               </div>
@@ -304,16 +309,21 @@
 
       <section class="section cta-section">
         <div class="container cta-box">
-          <h2>Let's find your first quick win.</h2>
-          <p>Start with a focused pilot and build from proven results.</p>
-          <a class="btn btn-primary" href="contact.html">Contact Us</a>
+          <h2>Want one of these running in your business?</h2>
+          <p>Tell me which one fits, or describe the manual work it should replace.</p>
+          <a class="btn btn-primary" href="contact.html">Tell me what to automate</a>
         </div>
       </section>
     </main>
 
     <footer class="site-footer">
       <div class="container footer-grid">
-        <p class="tagline">Practical AI systems that win customers and save hours.</p>
+        <p class="tagline">Custom software and automation that make the busywork disappear.</p>
+        <p>
+          <a href="privacy-policy/">Privacy Policy</a> &middot;
+          <a href="terms-conditions/">Terms &amp; Conditions</a> &middot;
+          <a href="sms-consent/">SMS Consent</a>
+        </p>
         <p>&copy; <span id="year"></span> TaskDepot AI. All rights reserved.</p>
       </div>
     </footer>

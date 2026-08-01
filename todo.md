@@ -1,5 +1,24 @@
 # TODO
 
+## Ops-software repositioning follow-ups (branch: ops-repositioning)
+
+- [x] Get USS approval for the drafted testimonial. Approved by the USS
+  owner (relayed by Chase, 2026-08-01), running with title-only
+  attribution ("Owner, Unlimited Security Specialists"). Live in the
+  USS card in `index.html`.
+- [ ] Add a real founder photo to the "Who you're working with" block.
+  The `.founder-avatar` span currently shows a "C" monogram; swap in
+  `<img>` when a photo exists (CSS already handles it).
+- [ ] Section-depth visit tracking (landing-page-craft Part 1 step 10):
+  needs a small endpoint (likely a Cloudflare Worker) to receive
+  sendBeacon milestones. Not built yet; site currently has no analytics.
+- [ ] hero-bg.mp4 and hero-bg-poster.jpg are no longer referenced by
+  index.html after the redesign. Delete them (or repurpose) once the
+  redesign ships.
+- [ ] LinkedIn assets (logo, banner, OG image) and the site now share the
+  dark navy palette; if the palette shifts, regenerate og-image.png and
+  favicon.png to match.
+
 - [ ] Investigate the native Cloudflare "Rate limiter" binding for the
   incident-report-proxy Worker. It appears in the dashboard under
   Worker > Settings > Bindings > Add a binding (same list as KV

@@ -173,7 +173,7 @@
     const mailtoHref = `mailto:hello@example.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
     if (success) {
-      success.textContent = 'Thanks — I’ll reply within 1 business day.';
+      success.textContent = 'Thanks! I’ll reply within 1 business day.';
     }
 
     if (fallback) {

@@ -1,19 +1,23 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Contact | TaskDepot AI</title>
+    <title>Tell Me What to Automate | TaskDepot AI</title>
     <meta
       name="description"
-      content="Contact TaskDepot AI to discuss workflow automation, AI customer service, and SMS process improvements for your small business."
+      content="Describe the thing your team still does by hand. TaskDepot AI replies within one business day with how we'd automate it."
     />
-    <meta property="og:title" content="Contact TaskDepot AI" />
+    <meta property="og:title" content="Tell Me What to Automate | TaskDepot AI" />
     <meta
       property="og:description"
-      content="Share your current process and we will propose a practical pilot project for your team."
+      content="Describe the thing your team still does by hand and get back a straight answer on how we'd automate it."
     />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://taskdepot.ai/contact.html" />
+    <meta property="og:image" content="https://taskdepot.ai/og-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -29,7 +33,7 @@
     <header class="site-header">
       <div class="container nav-wrap">
         <a class="brand" href="/" aria-label="TaskDepot AI Home">
-          <img src="/logo-taskdepot-ai.svg" alt="TaskDepot AI" />
+          <img src="/logo-taskdepot-ai-dark.svg" alt="TaskDepot AI" />
         </a>
         <button
           class="menu-toggle"
@@ -41,12 +45,12 @@
           <span></span><span></span><span></span>
         </button>
         <nav id="primary-nav" class="site-nav" aria-label="Primary">
-          <a href="index.html">Home</a>
+          <a href="index.html#work">Our Work</a>
           <a href="index.html#services">Services</a>
           <a href="index.html#how-it-works">How It Works</a>
           <a href="index.html#faq">FAQ</a>
-          <a href="pre-built-ai-solutions.html">Pre-Built AI Solutions</a>
-          <a href="contact.html" aria-current="page">Contact</a>
+          <a href="pre-built-ai-solutions.html">Live Demo</a>
+          <a class="btn-nav" href="contact.html" aria-current="page">Tell me what to automate</a>
         </nav>
       </div>
     </header>
@@ -54,10 +58,11 @@
     <main id="main-content" class="section">
       <div class="container contact-layout">
         <section>
-          <h1>Contact</h1>
+          <h1>Tell me what to automate</h1>
           <p class="lead">
-            Tell us what your team wants to improve. We will review your current process and recommend
-            a practical pilot with clear deliverables and timeline.
+            Describe the thing your team still does by hand. Two sentences is plenty. I'll reply
+            within one business day with how I'd approach it, roughly what it would involve, and
+            an honest take on whether it's worth automating at all.
           </p>
 
           <form
@@ -74,7 +79,7 @@
               </div>
 
               <div class="form-field">
-                <label for="businessName">Business Name</label>
+                <label for="businessName">Business Name <span class="optional">(optional)</span></label>
                 <input id="businessName" name="businessName" type="text" />
               </div>
 
@@ -85,13 +90,19 @@
               </div>
 
               <div class="form-field">
-                <label for="phone">Phone</label>
+                <label for="phone">Phone <span class="optional">(optional)</span></label>
                 <input id="phone" name="phone" type="tel" />
               </div>
 
               <div class="form-field full-width">
-                <label for="automationGoal">What do you want help with? <span aria-hidden="true">*</span></label>
-                <textarea id="automationGoal" name="automationGoal" rows="5" required></textarea>
+                <label for="automationGoal">What does your team do by hand today? <span aria-hidden="true">*</span></label>
+                <textarea
+                  id="automationGoal"
+                  name="automationGoal"
+                  rows="5"
+                  required
+                  placeholder="Example: our scheduler builds the week in Excel, then types every shift into our scheduling system again."
+                ></textarea>
                 <p class="error-message" data-error-for="automationGoal"></p>
               </div>
 
@@ -103,7 +114,11 @@
               </fieldset>
             </div>
 
-            <button type="submit" class="btn btn-primary">Send Inquiry</button>
+            <button type="submit" class="btn btn-primary">Get my automation plan</button>
+            <p class="form-microcopy">
+              No obligation and no sales sequence. You'll hear back from Chase, the person who
+              builds the software, within one business day.
+            </p>
 
             <p id="form-success" class="success-message" role="status" aria-live="polite"></p>
             <p id="mailto-fallback" class="mailto-link"></p>
@@ -111,12 +126,11 @@
         </section>
 
         <aside class="card">
-          <h2>Typical First Project</h2>
+          <h2>What happens next</h2>
           <ul>
-            <li>Map one high-volume process and identify delay points.</li>
-            <li>Implement a pilot workflow with approval checkpoints.</li>
-            <li>Test with real customer requests and team feedback.</li>
-            <li>Document results and expansion opportunities.</li>
+            <li>I read what you sent and look at how the work flows today.</li>
+            <li>You get a plain-language reply: what I'd build first, roughly how long it takes, and what it costs to find out more.</li>
+            <li>If it makes sense, we scope a focused pilot. If it doesn't, I'll say so.</li>
           </ul>
         </aside>
       </div>
@@ -124,7 +138,12 @@
 
     <footer class="site-footer">
       <div class="container footer-grid">
-        <p class="tagline">Practical AI systems that win customers and save hours.</p>
+        <p class="tagline">Custom software and automation that make the busywork disappear.</p>
+        <p>
+          <a href="privacy-policy/">Privacy Policy</a> &middot;
+          <a href="terms-conditions/">Terms &amp; Conditions</a> &middot;
+          <a href="sms-consent/">SMS Consent</a>
+        </p>
         <p>&copy; <span id="year"></span> TaskDepot AI. All rights reserved.</p>
       </div>
     </footer>

@@ -1,7 +1,9 @@
-# TaskDepot AI — Small Business Consulting Site
+# TaskDepot AI: Custom Operations Software and Automation Site
 
-Marketing site for TaskDepot AI. Static HTML/CSS/JS, deployed via GitHub Pages
-(custom domain set in `CNAME`).
+Marketing site for TaskDepot AI, positioned around custom operations software
+and automation, with web dev, AI content, and AI consulting as secondary
+services. Static HTML/CSS/JS, deployed via GitHub Pages (custom domain set in
+`CNAME`).
 
 ## Running Locally
 
