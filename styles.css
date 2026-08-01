@@ -26,6 +26,8 @@
   --dark-muted: #a7b7cd;
   --dark-border: rgba(148, 180, 220, 0.16);
   --dark-card: rgba(20, 38, 62, 0.72);
+  --hero-card: rgba(31, 54, 86, 0.88);
+  --hero-card-border: rgba(148, 180, 220, 0.28);
 
   /* Gradients */
   --gradient-accent: linear-gradient(135deg, #1fb8ee 0%, #2f7ff0 55%, #0b5fd2 100%);
@@ -364,8 +366,8 @@ a:hover {
 
 /* Hero product mock */
 .hero-mock {
-  background: var(--dark-card);
-  border: 1px solid var(--dark-border);
+  background: var(--hero-card);
+  border: 1px solid var(--hero-card-border);
   border-radius: var(--radius);
   box-shadow: 0 24px 60px rgba(3, 8, 16, 0.55);
   overflow: hidden;
