@@ -1401,8 +1401,11 @@ summary:focus-visible {
 
   .founder-card {
     flex-direction: column;
-    align-items: center;
-    text-align: center;
+    align-items: flex-start;
+  }
+
+  .founder-card .founder-avatar {
+    align-self: center;
   }
 }
 
