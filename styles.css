@@ -466,6 +466,92 @@ a:hover {
   color: var(--blue-bright);
 }
 
+/* Hero mock loop: hold complete, clear, rebuild row by row, caption last.
+   One shared 10s cycle; each element keys off its own percentages so the
+   sequence stays in sync without JS. */
+@media (prefers-reduced-motion: no-preference) {
+  .mock-body .mock-row,
+  .mock-check,
+  .mock-note {
+    animation-duration: 10s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease;
+  }
+
+  .mock-body .mock-row:nth-child(1) {
+    animation-name: mock-cycle-row-1;
+  }
+
+  .mock-body .mock-row:nth-child(2) {
+    animation-name: mock-cycle-row-2;
+  }
+
+  .mock-body .mock-row:nth-child(3) {
+    animation-name: mock-cycle-row-3;
+  }
+
+  .mock-row:nth-child(1) .mock-check {
+    animation-name: mock-cycle-check-1;
+  }
+
+  .mock-row:nth-child(2) .mock-check {
+    animation-name: mock-cycle-check-2;
+  }
+
+  .mock-row:nth-child(3) .mock-check {
+    animation-name: mock-cycle-check-3;
+  }
+
+  .mock-note {
+    animation-name: mock-cycle-note;
+  }
+}
+
+@keyframes mock-cycle-row-1 {
+  0%, 20% { opacity: 1; transform: none; }
+  24%, 30% { opacity: 0; transform: translateY(14px); }
+  35%, 100% { opacity: 1; transform: none; }
+}
+
+@keyframes mock-cycle-row-2 {
+  0%, 20% { opacity: 1; transform: none; }
+  24%, 40% { opacity: 0; transform: translateY(14px); }
+  45%, 100% { opacity: 1; transform: none; }
+}
+
+@keyframes mock-cycle-row-3 {
+  0%, 20% { opacity: 1; transform: none; }
+  24%, 50% { opacity: 0; transform: translateY(14px); }
+  55%, 100% { opacity: 1; transform: none; }
+}
+
+@keyframes mock-cycle-check-1 {
+  0%, 20% { opacity: 1; transform: scale(1); }
+  24%, 35.5% { opacity: 0; transform: scale(0.4); }
+  37.5% { opacity: 1; transform: scale(1.2); }
+  39%, 100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes mock-cycle-check-2 {
+  0%, 20% { opacity: 1; transform: scale(1); }
+  24%, 45.5% { opacity: 0; transform: scale(0.4); }
+  47.5% { opacity: 1; transform: scale(1.2); }
+  49%, 100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes mock-cycle-check-3 {
+  0%, 20% { opacity: 1; transform: scale(1); }
+  24%, 55.5% { opacity: 0; transform: scale(0.4); }
+  57.5% { opacity: 1; transform: scale(1.2); }
+  59%, 100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes mock-cycle-note {
+  0%, 20% { opacity: 1; transform: none; }
+  24%, 66% { opacity: 0; transform: translateY(8px); }
+  72%, 100% { opacity: 1; transform: none; }
+}
+
 /* Surfaces */
 .card,
 .step-card,
