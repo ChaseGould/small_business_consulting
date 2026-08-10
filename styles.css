@@ -1354,12 +1354,8 @@ summary:focus-visible {
     padding: 4rem 0;
   }
 
-  .site-nav .btn-nav {
-    display: none;
-  }
-}
-
-@media (max-width: 720px) {
+  /* Below 960px the inline nav plus CTA crowds the header, so everything
+     moves into the hamburger dropdown, CTA included. */
   .menu-toggle {
     display: inline-block;
   }
@@ -1387,6 +1383,16 @@ summary:focus-visible {
     padding: 0.7rem 0.8rem;
   }
 
+  .site-nav .btn-nav {
+    display: block;
+    margin: 0.5rem 0 0.25rem;
+    padding: 0.8rem 1rem;
+    text-align: center;
+    white-space: normal;
+  }
+}
+
+@media (max-width: 720px) {
   .form-grid,
   .four-up,
   .three-up,
