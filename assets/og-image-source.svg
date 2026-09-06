@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#07142c" />
+      <stop offset="45%" stop-color="#08111f" />
+      <stop offset="100%" stop-color="#0a2455" />
+    </linearGradient>
+    <radialGradient id="glow" cx="88%" cy="12%" r="55%">
+      <stop offset="0%" stop-color="#1666d6" stop-opacity="0.42" />
+      <stop offset="100%" stop-color="#1666d6" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="depotBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3d9dff" />
+      <stop offset="55%" stop-color="#1f6fe8" />
+      <stop offset="100%" stop-color="#1b52d6" />
+    </linearGradient>
+    <linearGradient id="bottomBar" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1fb8ee" />
+      <stop offset="55%" stop-color="#1f6fe8" />
+      <stop offset="100%" stop-color="#0c3f9f" />
+    </linearGradient>
+    <linearGradient id="tileFace" x1="10%" y1="0%" x2="90%" y2="100%">
+      <stop offset="0%" stop-color="#16233d" />
+      <stop offset="100%" stop-color="#080d18" />
+    </linearGradient>
+    <linearGradient id="tileD" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3fa2ff" />
+      <stop offset="60%" stop-color="#1f6fe8" />
+      <stop offset="100%" stop-color="#1449c0" />
+    </linearGradient>
+    <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.6" fill="#5b8fd6" fill-opacity="0.16" />
+    </pattern>
+    <filter id="tileShadow" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="10" stdDeviation="22" flood-color="#04070f" flood-opacity="0.75" />
+    </filter>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <rect width="1200" height="630" fill="url(#dots)" />
+  <rect width="1200" height="630" fill="url(#glow)" />
+
+  <!-- TD mark -->
+  <g filter="url(#tileShadow)">
+    <rect x="866" y="188" width="256" height="256" rx="58" fill="url(#tileFace)" stroke="#2a6cc4" stroke-opacity="0.45" stroke-width="2" />
+    <text x="916" y="374" font-family="Inter, Arial, Helvetica, sans-serif" font-size="150" font-weight="800" font-style="italic" letter-spacing="-6" fill="#f4f7fb">T</text>
+    <text x="986" y="374" font-family="Inter, Arial, Helvetica, sans-serif" font-size="150" font-weight="800" letter-spacing="-6" fill="url(#tileD)">D</text>
+  </g>
+
+  <!-- wordmark -->
+  <text x="95" y="248" font-family="Inter, Arial, Helvetica, sans-serif" font-size="96" font-weight="800" font-style="italic" letter-spacing="-4" fill="#ffffff">Task</text>
+  <text x="318" y="248" font-family="Inter, Arial, Helvetica, sans-serif" font-size="96" font-weight="800" letter-spacing="-4" fill="url(#depotBlue)">Depot AI</text>
+
+  <!-- headline -->
+  <text x="95" y="338" font-family="Inter, Arial, Helvetica, sans-serif" font-size="40" font-weight="700" letter-spacing="-0.5" fill="#ffffff">Stop paying your team to re-type data.</text>
+
+  <!-- subcopy -->
+  <text x="95" y="400" font-family="Inter, Arial, Helvetica, sans-serif" font-size="27" font-weight="400" fill="#b8c6dc">Custom software and automation that eliminate</text>
+  <text x="95" y="440" font-family="Inter, Arial, Helvetica, sans-serif" font-size="27" font-weight="400" fill="#b8c6dc">manual work, built around your existing systems</text>
+
+  <!-- url pill -->
+  <rect x="95" y="500" width="196" height="46" rx="23" fill="none" stroke="#2f7fe0" stroke-width="2" />
+  <text x="193" y="531" text-anchor="middle" font-family="Inter, Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#4ea3ff">taskdepot.ai</text>
+
+  <rect x="0" y="622" width="1200" height="8" fill="url(#bottomBar)" />
+</svg>
